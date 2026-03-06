@@ -1,0 +1,70 @@
+# Technical Implementation Plan: Nethaji Portfolio
+
+This document outlines the technical approach to building Nethaji's personal portfolio website.
+
+## Objective
+To build a modern, responsive, and maintainable single-page developer portfolio using React (Vite) and Tailwind CSS, tailored specifically for "Nethaji".
+
+## User Review Required
+> [!NOTE]
+> Please review the proposed architecture and tech stack detailed below.
+> Is Tailwind CSS acceptable for styling, or would you prefer pure CSS modules? The plan currently assumes Tailwind CSS as it aligns well with modern React development and rapid prototyping.
+
+## Proposed Architecture
+
+1.  **Framework:** React 18+ initialized via Vite.
+2.  **Styling:** Tailwind CSS for utility-first, responsive design, and easy dark mode implementation.
+3.  **Icons:** `lucide-react` or `react-icons` for clean, modern SVG icons.
+4.  **Routing:** Standard scroll-based section navigation on a single page (no external router needed for a simple one-page portfolio).
+
+## Project Structure Changes
+
+### [NEW] Configuration and Core
+- `tailwind.config.js`: Configure colors, fonts, and dark mode (`class` strategy).
+- [src/index.css](file:///c:/Users/Admin/Documents/React_Project/nethaji-portfolio/src/index.css): Tailwind directives and global custom styles (e.g., smooth scrolling, custom scrollbars).
+- [src/App.tsx](file:///c:/Users/Admin/Documents/React_Project/nethaji-portfolio/src/App.tsx): Main layout container bringing together Navbar, Footer, and all sections.
+- [src/main.tsx](file:///c:/Users/Admin/Documents/React_Project/nethaji-portfolio/src/main.tsx): Entry point.
+
+### [NEW] Utilities & Hooks
+- `src/hooks/useTheme.js`: Custom hook to manage Light/Dark mode state and synchronize it with `localStorage` and the `documentElement` class.
+- `src/utils/helpers.js`: Utility functions (e.g., combining class names, formatting dates).
+
+### [NEW] Constants (Data Management)
+- `src/constants/personalInfo.js`: Name, title, contact details, social links.
+- `src/constants/skills.js`: Structured list of skills (e.g., Frontend, Backend, Tools).
+- `src/constants/projects.js`: Array of project objects (title, description, tech stack, links).
+- `src/constants/experience.js`: Array of work/education experience objects.
+
+### [NEW] Reusable Components (`src/components/common/`)
+- `SectionTitle.jsx`: Standardized heading for each portfolio section.
+- `SkillCard.jsx`: Reusable card to display a single skill.
+- `ProjectCard.jsx`: Reusable card for project details.
+- `SocialLinks.jsx`: Component to render GitHub, LinkedIn, etc.
+- `ThemeToggle.jsx`: Sun/Moon button to switch themes.
+
+### [NEW] Layout & Sections (`src/components/`)
+- `Navbar.jsx`: Sticky header with navigation links and theme toggle.
+- `Hero.jsx`: Intro section with name, title, and quick summary.
+- `About.jsx`: Detailed background information.
+- `Skills.jsx`: Grid of `SkillCard` components based on `constants/skills.js`.
+- `Projects.jsx`: Grid of `ProjectCard` components based on `constants/projects.js`.
+- `Experience.jsx`: Timeline or list view of `constants/experience.js`.
+- `Contact.jsx`: Contact form or direct contact links.
+- `Footer.jsx`: Copyright and bottom social links.
+
+### [NEW] Pages (`src/pages/`)
+- `Home.jsx`: Assembles all the individual sections into the main scrollable page.
+
+## Verification Plan
+
+### Automated/Build Verification
+- Verify successful build using `npm run build` to ensure no TypeScript or bundling errors.
+- Run `npm run lint` if ESLint is configured.
+
+### Manual Verification Steps
+1.  **Start Development Server:** Run `npm run dev`.
+2.  **Visual Inspection (Desktop):** Open the local URL and check the overall layout, typography, and spacing.
+3.  **Visual Inspection (Mobile):** Use browser dev tools to simulate a mobile device and ensure all sections stack correctly and the navigation works.
+4.  **Theme Functional Test:** Click the Theme Toggle button in the Navbar. Verify the background and text colors invert appropriately. Refresh the page to ensure the preference is saved in `localStorage`.
+5.  **Scroll Navigation:** Click navigation links in the Navbar to verify smooth scrolling to the respective sections.
+6.  **Data Rendering:** Ensure data from the `constants` files is correctly displayed in the Skills, Projects, and Experience sections without hardcoded fallbacks affecting the UI.
